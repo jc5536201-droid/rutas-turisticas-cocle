@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rutas Turísticas — Provincia de Coclé</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+:root{--verde:#2D6A4F;--verde2:#40916C;--verde3:#52B788;--lima:#95D5B2;--crema:#F8F4E9;--dorado:#C9A84C;--marron:#5C3D2E;--rojo:#D64045;--texto:#1A1A1A;--gris:#6B7280;--borde:#E5E0D5;--blanco:#FFFFFF;--sombra:0 6px 24px rgba(45,106,79,0.12);--r:14px;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--crema);color:var(--texto);}
+.hero{background:linear-gradient(140deg,#0D2B1E,#1B4332 45%,#2D6A4F);padding:56px 32px 72px;text-align:center;position:relative;overflow:hidden;}
+.hero::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%,rgba(82,183,136,.08),transparent 70%);}
+.hero-badge{display:inline-block;border:1px solid rgba(149,213,178,.35);color:var(--lima);font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:5px 16px;border-radius:20px;margin-bottom:18px;position:relative;z-index:1;}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.4rem);color:#fff;line-height:1.15;margin-bottom:10px;position:relative;z-index:1;}
+.hero h1 em{color:var(--lima);font-style:italic;}
+.hero p{color:rgba(255,255,255,.65);font-size:14px;max-width:480px;margin:0 auto 6px;line-height:1.65;position:relative;z-index:1;}
+.hero-meta{color:rgba(255,255,255,.35);font-size:11px;letter-spacing:.05em;position:relative;z-index:1;}
+.dist-nav{display:flex;gap:0;overflow-x:auto;background:var(--verde);scrollbar-width:none;}
+.dist-nav::-webkit-scrollbar{display:none;}
+.dist-tab{flex-shrink:0;padding:14px 22px;font-size:13px;font-weight:500;color:rgba(255,255,255,.6);cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap;display:flex;align-items:center;gap:8px;}
+.dist-tab:hover{color:#fff;background:rgba(255,255,255,.06);}
+.dist-tab.active{color:#fff;border-bottom-color:var(--lima);background:rgba(255,255,255,.08);}
+.dist-dot{width:8px;height:8px;border-radius:50%;background:currentColor;opacity:.5;}
+.dist-tab.active .dist-dot{opacity:1;background:var(--lima);}
+.wrap{max-width:1100px;margin:0 auto;padding:36px 24px;}
+.sec-title{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--verde);margin-bottom:4px;}
+.sec-sub{font-size:13px;color:var(--gris);margin-bottom:20px;}
+.places-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px;margin-bottom:36px;}
+.place-card{background:var(--blanco);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s;border:2px solid transparent;position:relative;}
+.place-card:hover{transform:translateY(-3px);box-shadow:var(--sombra);}
+.place-card.sel-orig{border-color:var(--dorado);}
+.place-card.sel-dest{border-color:var(--rojo);}
+.place-thumb{height:100px;display:flex;align-items:center;justify-content:center;font-size:38px;background:linear-gradient(135deg,var(--verde),var(--verde3));}
+.place-body{padding:10px 12px;}
+.place-name{font-weight:500;font-size:12px;color:var(--texto);line-height:1.3;margin-bottom:2px;}
+.place-type{font-size:11px;color:var(--gris);}
+.place-pill{position:absolute;top:7px;left:7px;font-size:10px;font-weight:500;padding:2px 8px;border-radius:10px;color:#fff;}
+.pill-orig{background:var(--dorado);}
+.pill-dest{background:var(--rojo);}
+.pill-paso{background:var(--verde2);}
+.panel{background:var(--blanco);border-radius:18px;padding:24px 26px;box-shadow:var(--sombra);margin-bottom:26px;}
+.crit-tabs{display:flex;gap:10px;margin-bottom:18px;}
+.crit-tab{flex:1;padding:10px 8px;border:1.5px solid var(--borde);border-radius:10px;background:var(--crema);cursor:pointer;text-align:center;transition:all .15s;}
+.crit-tab:hover{border-color:var(--verde3);}
+.crit-tab.active{background:var(--verde);border-color:var(--verde);color:#fff;}
+.crit-tab .ci{display:block;font-size:20px;margin-bottom:3px;}
+.crit-tab .cl{font-size:11px;font-weight:500;display:block;}
+.form-row{display:grid;grid-template-columns:1fr 1fr auto;gap:14px;align-items:end;}
+@media(max-width:600px){.form-row{grid-template-columns:1fr;}}
+.field label{display:block;font-size:11px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--gris);margin-bottom:7px;}
+.field select{width:100%;padding:10px 13px;border:1.5px solid var(--borde);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--texto);background:var(--crema);appearance:none;outline:none;transition:border-color .15s;}
+.field select:focus{border-color:var(--verde);}
+.calc-btn{background:var(--verde);color:#fff;border:none;padding:11px 24px;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:background .15s;white-space:nowrap;}
+.calc-btn:hover{background:#1B4332;}
+.result-wrap{display:none;animation:up .3s ease;}
+.result-wrap.on{display:block;}
+@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.ruta-steps{display:flex;align-items:center;gap:7px;flex-wrap:wrap;padding:13px 16px;background:var(--crema);border-radius:10px;margin:14px 0;}
+.ruta-node{padding:5px 12px;border-radius:20px;font-size:12px;font-weight:500;color:#fff;}
+.node-orig{background:var(--dorado);}
+.node-mid{background:var(--verde2);}
+.node-dest{background:var(--rojo);}
+.ruta-arrow{color:var(--verde3);font-size:16px;font-weight:700;}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+@media(max-width:480px){.stats{grid-template-columns:1fr;}}
+.stat{padding:14px;border-radius:12px;border:1.5px solid var(--borde);text-align:center;}
+.stat.hl{border-color:var(--verde);background:rgba(45,106,79,.04);}
+.stat-val{font-family:'Playfair Display',serif;font-size:2rem;color:var(--verde);line-height:1;margin-bottom:3px;}
+.stat-lbl{font-size:11px;color:var(--gris);text-transform:uppercase;letter-spacing:.07em;}
+#grafo-wrap{border-radius:12px;overflow:hidden;background:linear-gradient(135deg,#EDF7F2,#E0F2EA);height:420px;}
+#gsvg{width:100%;height:100%;}
+.det-wrap{display:none;animation:up .3s ease;}
+.det-wrap.on{display:block;}
+.det-inner{display:grid;grid-template-columns:160px 1fr;gap:20px;align-items:start;}
+@media(max-width:560px){.det-inner{grid-template-columns:1fr;}}
+.det-thumb{width:160px;height:130px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:54px;background:linear-gradient(135deg,var(--verde),var(--verde3));flex-shrink:0;}
+.det-name{font-family:'Playfair Display',serif;font-size:1.25rem;color:var(--verde);margin-bottom:6px;}
+.det-desc{font-size:13px;color:var(--gris);line-height:1.7;margin-bottom:10px;}
+.tags{display:flex;gap:7px;flex-wrap:wrap;}
+.tag{background:rgba(45,106,79,.1);color:var(--verde);font-size:11px;font-weight:500;padding:3px 9px;border-radius:20px;}
+.tbl-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:12.5px;}
+th{background:var(--crema);color:var(--gris);font-size:10.5px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:9px 12px;border-bottom:1px solid var(--borde);text-align:left;}
+td{padding:8px 12px;border-bottom:.5px solid #F0EDE4;}
+tr:hover td{background:#FAFAF6;}
+tr.tbl-hl td{background:rgba(45,106,79,.06);font-weight:500;}
+.td-km{color:var(--verde);font-weight:500;}
+.td-min{color:var(--marron);}
+.td-usd{color:var(--dorado);font-weight:500;}
+.info-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:26px;}
+.info-card{background:var(--blanco);border-radius:12px;padding:14px 18px;box-shadow:var(--sombra);display:flex;align-items:center;gap:12px;}
+.info-icon{width:38px;height:38px;border-radius:9px;background:linear-gradient(135deg,var(--verde),var(--verde3));display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
+.info-val{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--verde);line-height:1;}
+.info-lbl{font-size:11px;color:var(--gris);}
+.notif{position:fixed;bottom:24px;right:24px;background:var(--verde);color:#fff;padding:11px 18px;border-radius:11px;font-size:13px;font-weight:500;box-shadow:0 8px 24px rgba(0,0,0,.18);transform:translateY(70px);opacity:0;transition:all .3s;z-index:999;}
+.notif.on{transform:none;opacity:1;}
+footer{background:#0D2B1E;color:rgba(255,255,255,.4);text-align:center;padding:28px 24px;font-size:12px;line-height:1.9;}
+footer strong{color:var(--lima);}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="hero-badge">🌿 Sistema de Rutas Turísticas</div>
+  <h1>Provincia de <em>Coclé</em></h1>
+  <p>Exploración interactiva de rutas óptimas usando el Algoritmo de Dijkstra</p>
+  <div class="hero-meta">Proyecto de Tesis · 6 Distritos · Panamá</div>
+</div>
+<nav class="dist-nav" id="dist-nav"></nav>
+<div class="wrap">
+  <div class="info-strip" id="info-strip"></div>
+  <div class="sec-title">Lugares Turísticos</div>
+  <div class="sec-sub" id="places-sub">Haz clic en un lugar para ver su detalle.</div>
+  <div class="places-grid" id="places-grid"></div>
+  <div class="panel det-wrap" id="det-wrap">
+    <div class="det-inner">
+      <div class="det-thumb" id="det-thumb"></div>
+      <div><div class="det-name" id="det-name"></div><div class="det-desc" id="det-desc"></div><div class="tags" id="det-tags"></div></div>
+    </div>
+  </div>
+  <div class="panel">
+    <div style="margin-bottom:14px"><div class="sec-title">Calcular Ruta Óptima</div><div class="sec-sub" style="margin-bottom:0">Selecciona origen, destino y criterio</div></div>
+    <div class="crit-tabs">
+      <div class="crit-tab active" onclick="setCrit('km',this)"><span class="ci">📍</span><span class="cl">Distancia</span></div>
+      <div class="crit-tab" onclick="setCrit('min',this)"><span class="ci">⏱️</span><span class="cl">Tiempo</span></div>
+      <div class="crit-tab" onclick="setCrit('usd',this)"><span class="ci">💰</span><span class="cl">Costo</span></div>
+    </div>
+    <div class="form-row">
+      <div class="field"><label>Origen</label><select id="sel-o"></select></div>
+      <div class="field"><label>Destino</label><select id="sel-d"></select></div>
+      <div><button class="calc-btn" onclick="calcular()">🔍 Calcular</button></div>
+    </div>
+  </div>
+  <div class="panel result-wrap" id="result-wrap">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:4px">
+      <div style="width:42px;height:42px;background:linear-gradient(135deg,var(--verde),var(--verde3));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">🗺️</div>
+      <div><div style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--verde)" id="res-title"></div><div style="font-size:12px;color:var(--gris)" id="res-sub"></div></div>
+    </div>
+    <div class="ruta-steps" id="ruta-steps"></div>
+    <div class="stats" id="stats"></div>
+  </div>
+  <div class="panel">
+    <div style="margin-bottom:14px"><div class="sec-title">Mapa del Grafo</div><div class="sec-sub" style="margin-bottom:0">Nodos = lugares · Aristas = rutas · Rojo = camino óptimo</div></div>
+    <div id="grafo-wrap"><svg id="gsvg" viewBox="0 0 820 420"></svg></div>
+    <div style="display:flex;gap:16px;margin-top:10px;font-size:12px;color:var(--gris);flex-wrap:wrap">
+      <span>⬤ <span style="color:var(--verde)">Verde</span> = lugar normal</span>
+      <span>⬤ <span style="color:var(--dorado)">Dorado</span> = origen elegido</span>
+      <span>⬤ <span style="color:var(--rojo)">Rojo</span> = destino / en ruta</span>
+    </div>
+  </div>
+  <div class="panel">
+    <div style="margin-bottom:14px"><div class="sec-title">Tabla de Conexiones</div><div class="sec-sub" style="margin-bottom:0">Datos del CSV del distrito · Filas resaltadas = ruta calculada</div></div>
+    <div class="tbl-wrap"><table><thead><tr><th>Origen</th><th>Destino</th><th>Distancia (km)</th><th>Tiempo (min)</th><th>Costo (USD)</th></tr></thead><tbody id="tbl-body"></tbody></table></div>
+  </div>
+</div>
+<footer><strong>Rutas Turísticas — Provincia de Coclé</strong><br>Algoritmo de Dijkstra · Grafo Ponderado · Proyecto de Tesis<br>Aguadulce · Antón · La Pintada · Natá · Olá · Penonomé</footer>
+<div class="notif" id="notif"></div>
+<script>
+const DISTRITOS={
+penonome:{nombre:"Penonomé",emoji:"🏛️",color:"#2D6A4F",info:{lugares:10,conexiones:27,desc:"Capital de Coclé"},
+lugares:[
+{id:"penonome",n:"Penonomé",e:"🏛️",t:"Centro urbano",d:"Capital de la provincia de Coclé. Punto de partida para explorar los atractivos del distrito.",tags:["Centro","Historia","Gastronomía"]},
+{id:"mercado",n:"Mercado de Penonomé",e:"🛒",t:"Comercio",d:"Mercado tradicional con artesanías, sombreros pintados y productos locales típicos de Coclé.",tags:["Artesanías","Cultura","Gastronomía"]},
+{id:"carpios",n:"Carpios Land Parque Acuático",e:"🎢",t:"Acuático",d:"Parque acuático con toboganes y piscinas. Principal atractivo de entretenimiento familiar.",tags:["Acuático","Familia","Diversión"]},
+{id:"catedral",n:"Catedral Penonomé",e:"⛪",t:"Patrimonio",d:"Catedral histórica en el parque central. Arquitectura colonial y patrimonio religioso de Coclé.",tags:["Historia","Religión","Arquitectura"]},
+{id:"museo",n:"Museo De Penonomé",e:"🏺",t:"Cultura",d:"Colecciones arqueológicas precolombinas y piezas históricas del distrito.",tags:["Arqueología","Historia","Educación"]},
+{id:"arias",n:"Museo Hermanos Arias Madrid",e:"🎖️",t:"Historia",d:"Museo dedicado a los hermanos Arias Madrid, figuras destacadas de la política panameña.",tags:["Política","Historia","Cultura"]},
+{id:"pelota",n:"La Pelota Feliz (Minigolf)",e:"⛳",t:"Recreación",d:"Parque recreativo con canchas de minigolf ideal para familias y grupos.",tags:["Familia","Deporte","Ocio"]},
+{id:"icacos",n:"Icacos Adventure",e:"🧗",t:"Aventura",d:"Centro de ecoturismo con senderismo, tirolesa y observación de fauna silvestre.",tags:["Ecoturismo","Aventura","Naturaleza"]},
+{id:"tavida",n:"Cascada Tavida",e:"💧",t:"Naturaleza",d:"Impresionante cascada rodeada de vegetación tropical, ideal para fotografía y senderismo.",tags:["Cascada","Senderismo","Naturaleza"]},
+{id:"pailas",n:"Cascada Las Pailas (Pozo Azul)",e:"🏊",t:"Naturaleza",d:"El Pozo Azul: aguas cristalinas turquesas, uno de los destinos más visitados de Coclé.",tags:["Cascada","Natación","Fotografía"]},
+],
+conexiones:[
+{o:"penonome",d:"mercado",km:4,min:8,usd:.8},{o:"penonome",d:"carpios",km:8,min:15,usd:1.6},{o:"penonome",d:"catedral",km:5,min:9,usd:1},
+{o:"penonome",d:"museo",km:1,min:3,usd:.2},{o:"penonome",d:"arias",km:1.5,min:4,usd:.3},{o:"penonome",d:"pelota",km:6,min:13,usd:1.2},
+{o:"penonome",d:"icacos",km:10,min:20,usd:2},{o:"penonome",d:"tavida",km:38,min:72,usd:7.6},{o:"penonome",d:"pailas",km:33,min:72,usd:6.6},
+{o:"mercado",d:"catedral",km:1,min:4,usd:.2},{o:"catedral",d:"museo",km:.713,min:2,usd:.1426},{o:"museo",d:"arias",km:1,min:4,usd:.2},
+{o:"mercado",d:"pelota",km:2,min:6,usd:.4},{o:"pelota",d:"carpios",km:4,min:6,usd:.8},{o:"mercado",d:"carpios",km:4,min:8,usd:.8},
+{o:"museo",d:"mercado",km:.44,min:1,usd:.088},{o:"carpios",d:"icacos",km:18,min:21,usd:3.6},{o:"icacos",d:"tavida",km:39,min:74,usd:7.8},
+{o:"icacos",d:"pailas",km:35,min:74,usd:7},{o:"tavida",d:"pailas",km:7,min:27,usd:1.4},{o:"mercado",d:"icacos",km:7,min:13,usd:1.4},
+{o:"carpios",d:"tavida",km:56,min:86,usd:11.2},{o:"carpios",d:"pailas",km:52,min:86,usd:10.4},{o:"pelota",d:"icacos",km:4,min:7,usd:.8},
+{o:"pelota",d:"tavida",km:35,min:69,usd:7},{o:"mercado",d:"tavida",km:34,min:68,usd:6.8},{o:"mercado",d:"pailas",km:30,min:67,usd:6},
+],
+pos:{penonome:[410,200],mercado:[280,140],carpios:[200,295],catedral:[320,78],museo:[460,78],arias:[530,130],pelota:[230,215],icacos:[290,310],tavida:[120,310],pailas:[595,310]}
+},
+aguadulce:{nombre:"Aguadulce",emoji:"🌊",color:"#2A6496",info:{lugares:5,conexiones:16,desc:"Costa y salinas"},
+lugares:[
+{id:"aguadulce",n:"Aguadulce",e:"🏙️",t:"Centro urbano",d:"Ciudad costera conocida por sus salinas y cultura azucarera. Puerta de entrada al turismo de playa.",tags:["Ciudad","Costa","Historia"]},
+{id:"museo_stella",n:"Museo Regional Stella Sierra",e:"🏺",t:"Cultura",d:"Museo regional con colecciones históricas y arqueológicas de la identidad cultural de Aguadulce.",tags:["Historia","Arqueología","Arte"]},
+{id:"mesitas",n:"Cascadas Las Mesitas",e:"💦",t:"Naturaleza",d:"Impresionantes cascadas en las montañas cercanas, accesibles por senderos naturales.",tags:["Cascada","Naturaleza","Senderismo"]},
+{id:"salado",n:"Playa El Salado",e:"🏖️",t:"Playa",d:"Playa popular para recreación familiar con arenas y aguas tranquilas del Pacífico.",tags:["Playa","Familia","Descanso"]},
+{id:"salinas",n:"Salinas de Aguadulce",e:"🧂",t:"Agroturismo",d:"Uno de los principales productores de sal del país. Visita única para conocer la extracción artesanal.",tags:["Sal","Agroturismo","Único"]},
+],
+conexiones:[
+{o:"aguadulce",d:"museo_stella",km:3,min:6,usd:.6},{o:"aguadulce",d:"mesitas",km:14,min:21,usd:2.8},
+{o:"aguadulce",d:"salado",km:10,min:16,usd:2},{o:"aguadulce",d:"salinas",km:9,min:14,usd:1.8},
+{o:"museo_stella",d:"salinas",km:7,min:10,usd:1.4},{o:"salinas",d:"museo_stella",km:7,min:10,usd:1.4},
+{o:"museo_stella",d:"salado",km:9,min:11,usd:1.8},{o:"salado",d:"museo_stella",km:9,min:11,usd:1.8},
+{o:"salinas",d:"salado",km:1,min:1,usd:.2},{o:"salado",d:"salinas",km:1,min:1,usd:.2},
+{o:"salado",d:"mesitas",km:56,min:66,usd:11.2},{o:"mesitas",d:"salado",km:56,min:66,usd:11.2},
+{o:"salinas",d:"mesitas",km:54,min:65,usd:10.8},{o:"mesitas",d:"salinas",km:54,min:65,usd:10.8},
+{o:"museo_stella",d:"mesitas",km:47,min:55,usd:9.4},{o:"mesitas",d:"museo_stella",km:47,min:55,usd:9.4},
+],
+pos:{aguadulce:[150,200],museo_stella:[330,120],mesitas:[660,200],salado:[460,310],salinas:[390,210]}
+},
+anton:{nombre:"Antón",emoji:"🌋",color:"#6B3D8C",info:{lugares:20,conexiones:56,desc:"El Valle de Antón"},
+lugares:[
+{id:"anton",n:"Antón",e:"🏘️",t:"Centro",d:"Municipio que alberga el famoso Valle de Antón, cráter volcánico habitado con rica biodiversidad.",tags:["Valle","Volcán","Biodiversidad"]},
+{id:"india",n:"India Dormida",e:"⛰️",t:"Naturaleza",d:"Icónica formación montañosa con leyenda indígena. Sendero de senderismo con vistas panorámicas.",tags:["Senderismo","Leyenda","Vistas"]},
+{id:"gaital",n:"Cerro Gaital",e:"🌲",t:"Naturaleza",d:"Reserva natural con bosque nuboso. Hogar de quetzales y cientos de especies de aves.",tags:["Aves","Bosque","Reserva"]},
+{id:"chorro_macho",n:"El Chorro Macho",e:"🌊",t:"Cascada",d:"La cascada más emblemática del Valle de Antón, con 35 metros de caída y pozas naturales.",tags:["Cascada","Fotografía","Naturaleza"]},
+{id:"mozas",n:"Chorro Las Mozas",e:"💧",t:"Cascada",d:"Cascada de aguas frías con pozas para baño, rodeada de vegetación exuberante.",tags:["Baño","Cascada","Refrescante"]},
+{id:"termales",n:"Pozos Termales",e:"♨️",t:"Bienestar",d:"Aguas termales naturales con propiedades medicinales, perfectas para relajación.",tags:["Termas","Salud","Relax"]},
+{id:"arboles",n:"Sendero Árboles Cuadrados",e:"🌳",t:"Naturaleza",d:"Fenómeno botánico único: árboles con troncos de forma cuadrada.",tags:["Único","Botánica","Curiosidad"]},
+{id:"nispero",n:"Zoológico El Níspero",e:"🦎",t:"Fauna",d:"Zoo y jardín botánico con fauna panameña rescatada. Ideal para educación ambiental.",tags:["Fauna","Educación","Rescate"]},
+{id:"serpentario",n:"Serpentario",e:"🐍",t:"Fauna",d:"Centro de exhibición y conservación de serpientes y reptiles de Panamá.",tags:["Reptiles","Conservación","Educación"]},
+{id:"mariposario",n:"Mariposario",e:"🦋",t:"Fauna",d:"Mariposas exóticas en ambiente natural. Una experiencia visual increíble.",tags:["Mariposas","Naturaleza","Fotografía"]},
+{id:"aprovaca",n:"APROVACA",e:"☕",t:"Agroturismo",d:"Asociación de productores de café artesanal. Visitas guiadas y catas de café.",tags:["Café","Artesanal","Comunidad"]},
+{id:"evacc",n:"EVACC",e:"🐸",t:"Conservación",d:"Centro de rescate del rano dorado panameño, especie en peligro crítico de extinción.",tags:["Rana Dorada","Conservación","Ciencia"]},
+{id:"mercado_ev",n:"Mercado El Valle de Antón",e:"🛍️",t:"Comercio",d:"Artesanías locales, plantas medicinales, cerámica y tejidos tradicionales del Valle.",tags:["Artesanías","Comercio","Cultura"]},
+{id:"pintada_roca",n:"Piedra Pintada",e:"🪨",t:"Arqueología",d:"Petroglifos precolombinos de incalculable valor histórico. Sitio arqueológico protegido.",tags:["Petroglifos","Historia","Arqueología"]},
+{id:"museo_valle",n:"Museo del Valle de Antón",e:"🏛️",t:"Cultura",d:"Exhibición de la historia natural y cultural del Valle de Antón.",tags:["Historia","Cultura","Valle"]},
+{id:"canopy",n:"Canopy Adventure",e:"🪂",t:"Aventura",d:"Tirolesa sobre el bosque del Valle de Antón con vista panorámica al cráter.",tags:["Tirolesa","Adrenalina","Vistas"]},
+{id:"retiro",n:"Chorro El Retiro",e:"🌿",t:"Cascada",d:"Cascada de fácil acceso, rodeada de senderos naturales.",tags:["Cascada","Senderismo","Accesible"]},
+{id:"sta_clara",n:"Playa Santa Clara",e:"🏝️",t:"Playa",d:"Playa de arena blanca, aguas tranquilas, una de las más visitadas de Panamá.",tags:["Playa","Arena Blanca","Familia"]},
+{id:"farallon",n:"Playa Farallón",e:"🌅",t:"Playa",d:"Playa con oleaje para surf y ambiente festivo.",tags:["Surf","Turismo","Vida Nocturna"]},
+{id:"blanca",n:"Playa Blanca",e:"🤿",t:"Playa",d:"Playa privada de arena blanca con aguas cristalinas para snorkel.",tags:["Snorkel","Cristalino","Exclusivo"]},
+],
+conexiones:[
+{o:"anton",d:"india",km:38,min:55,usd:7.6},{o:"anton",d:"gaital",km:40,min:60,usd:8},{o:"anton",d:"chorro_macho",km:39,min:57,usd:7.8},
+{o:"anton",d:"mozas",km:35,min:50,usd:7},{o:"anton",d:"termales",km:38,min:55,usd:7.6},{o:"anton",d:"arboles",km:27,min:42,usd:5.4},
+{o:"anton",d:"nispero",km:40,min:60,usd:8},{o:"anton",d:"serpentario",km:40,min:59,usd:8},{o:"anton",d:"mariposario",km:38,min:56,usd:7.6},
+{o:"anton",d:"aprovaca",km:39,min:58,usd:7.8},{o:"anton",d:"evacc",km:40,min:60,usd:8},{o:"anton",d:"mercado_ev",km:38,min:55,usd:7.6},
+{o:"anton",d:"pintada_roca",km:38,min:54,usd:7.6},{o:"anton",d:"museo_valle",km:39,min:57,usd:7.8},{o:"anton",d:"canopy",km:39,min:57,usd:7.8},
+{o:"anton",d:"retiro",km:28,min:41,usd:5.6},{o:"anton",d:"sta_clara",km:23,min:24,usd:4.6},{o:"anton",d:"farallon",km:21,min:23,usd:4.2},
+{o:"anton",d:"blanca",km:20,min:21,usd:4},
+{o:"india",d:"gaital",km:5,min:11,usd:1},{o:"india",d:"chorro_macho",km:3,min:7,usd:.6},{o:"india",d:"mozas",km:3,min:6,usd:.6},
+{o:"gaital",d:"chorro_macho",km:6,min:14,usd:1.2},{o:"gaital",d:"aprovaca",km:3,min:6,usd:.6},{o:"chorro_macho",d:"mozas",km:4,min:8,usd:.8},
+{o:"mozas",d:"pintada_roca",km:3,min:5,usd:.6},{o:"pintada_roca",d:"mercado_ev",km:2,min:6,usd:.4},{o:"pintada_roca",d:"museo_valle",km:4,min:8,usd:.8},
+{o:"pintada_roca",d:"mariposario",km:3,min:7,usd:.6},{o:"mariposario",d:"nispero",km:1,min:3,usd:.2},{o:"nispero",d:"serpentario",km:3,min:7,usd:.6},
+{o:"aprovaca",d:"evacc",km:2,min:5,usd:.4},{o:"termales",d:"aprovaca",km:2,min:5,usd:.4},{o:"arboles",d:"nispero",km:3,min:7,usd:.6},
+{o:"arboles",d:"pintada_roca",km:5,min:11,usd:1},{o:"canopy",d:"chorro_macho",km:1,min:1,usd:.2},{o:"canopy",d:"mariposario",km:4,min:8,usd:.8},
+{o:"retiro",d:"mozas",km:51,min:81,usd:10.2},{o:"retiro",d:"chorro_macho",km:55,min:88,usd:11},
+{o:"mercado_ev",d:"sta_clara",km:46,min:56,usd:9.2},{o:"mercado_ev",d:"farallon",km:49,min:60,usd:9.8},{o:"mercado_ev",d:"blanca",km:53,min:60,usd:10.6},
+{o:"mercado_ev",d:"museo_valle",km:2,min:3,usd:.4},{o:"mercado_ev",d:"nispero",km:2,min:3,usd:.4},{o:"mercado_ev",d:"mariposario",km:1,min:2,usd:.2},
+{o:"mercado_ev",d:"termales",km:1,min:3,usd:.2},{o:"mercado_ev",d:"canopy",km:3,min:7,usd:.6},{o:"museo_valle",d:"mariposario",km:1,min:3,usd:.2},
+{o:"museo_valle",d:"nispero",km:2,min:4,usd:.4},{o:"termales",d:"mariposario",km:1,min:3,usd:.2},{o:"termales",d:"museo_valle",km:2,min:5,usd:.4},
+{o:"gaital",d:"pintada_roca",km:5,min:12,usd:1},{o:"gaital",d:"mercado_ev",km:3,min:8,usd:.6},{o:"mariposario",d:"pintada_roca",km:3,min:7,usd:.6},
+{o:"museo_valle",d:"pintada_roca",km:4,min:8,usd:.8},
+],
+pos:{anton:[60,200],india:[210,80],gaital:[300,55],chorro_macho:[330,140],mozas:[390,75],termales:[460,75],arboles:[420,185],
+nispero:[530,125],serpentario:[620,75],mariposario:[500,195],aprovaca:[560,195],evacc:[640,175],mercado_ev:[480,285],
+pintada_roca:[395,295],museo_valle:[560,295],canopy:[325,215],retiro:[220,215],sta_clara:[650,345],farallon:[720,295],blanca:[755,195]}
+},
+la_pintada:{nombre:"La Pintada",emoji:"🎨",color:"#8B5E3C",info:{lugares:11,conexiones:27,desc:"Artesanías y cascadas"},
+lugares:[
+{id:"la_pintada",n:"La Pintada",e:"🏘️",t:"Centro",d:"Pueblo famoso por sus artesanías, especialmente el sombrero pintado. Centro cultural de la región.",tags:["Artesanías","Cultura","Sombrero"]},
+{id:"parroquia",n:"Parroquia N.S. de la Candelaria",e:"⛪",t:"Patrimonio",d:"Iglesia histórica patronal del pueblo, símbolo de la identidad religiosa de La Pintada.",tags:["Religión","Historia","Patrimonio"]},
+{id:"merca_pin",n:"Mercado de Artesanías",e:"🧶",t:"Comercio",d:"El mercado de sombreros pintados más famoso de Panamá.",tags:["Sombrero","Artesanía","Comercio"]},
+{id:"algarrobos",n:"Balneario Los Algarrobos",e:"🏊",t:"Recreación",d:"Balneario natural a orillas del río, popular para baño y picnic familiar.",tags:["Río","Baño","Familia"]},
+{id:"naranjos",n:"Balneario Los Naranjos",e:"🍊",t:"Recreación",d:"Balneario rodeado de naranjos con aguas cristalinas y ambiente tranquilo.",tags:["Río","Naturaleza","Tranquilo"]},
+{id:"pn_torrijos",n:"Parque Nacional Omar Torrijos",e:"🌲",t:"Parque Nacional",d:"Parque Nacional con bosque tropical húmedo, parte del Corredor Biológico Mesoamericano.",tags:["Parque Nacional","Biodiversidad","Trekking"]},
+{id:"yayas",n:"El Chorro Las Yayas",e:"💧",t:"Cascada",d:"Hermosa cascada en el bosque, accesible por senderos de montaña.",tags:["Cascada","Montaña","Senderismo"]},
+{id:"gallota",n:"Piedra La Gallota",e:"🪨",t:"Naturaleza",d:"Formación rocosa con historia indígena, mirador natural con vistas al valle.",tags:["Roca","Mirador","Historia"]},
+{id:"tigrero",n:"Chorro el Tigrero",e:"🐯",t:"Cascada",d:"Cascada en zona montañosa, hábitat de diversas especies de fauna silvestre.",tags:["Cascada","Fauna","Aventura"]},
+{id:"chorro_gde",n:"Chorro Grande",e:"🌊",t:"Cascada",d:"La cascada más grande del distrito, espectacular caída de agua en entorno selvático.",tags:["Cascada","Majestuoso","Naturaleza"]},
+{id:"harino",n:"Río El Harino",e:"🏞️",t:"Naturaleza",d:"Río de montaña ideal para pesca, kayak y disfrute del paisaje.",tags:["Río","Pesca","Kayak"]},
+],
+conexiones:[
+{o:"la_pintada",d:"parroquia",km:.12,min:1,usd:.024},{o:"la_pintada",d:"merca_pin",km:.493,min:1,usd:.099},
+{o:"la_pintada",d:"algarrobos",km:.344,min:1,usd:.069},{o:"la_pintada",d:"naranjos",km:34,min:51,usd:6.8},
+{o:"la_pintada",d:"pn_torrijos",km:41,min:86,usd:8.2},{o:"la_pintada",d:"yayas",km:34,min:51,usd:6.8},
+{o:"la_pintada",d:"gallota",km:31,min:45,usd:6.2},{o:"la_pintada",d:"tigrero",km:34,min:50,usd:6.8},
+{o:"la_pintada",d:"chorro_gde",km:42,min:68,usd:8.4},{o:"la_pintada",d:"harino",km:27,min:38,usd:5.4},
+{o:"merca_pin",d:"parroquia",km:.565,min:1,usd:.113},{o:"merca_pin",d:"algarrobos",km:.782,min:2,usd:.156},
+{o:"parroquia",d:"algarrobos",km:.324,min:1,usd:.065},{o:"naranjos",d:"yayas",km:2,min:3,usd:.4},
+{o:"yayas",d:"gallota",km:4,min:10,usd:.8},{o:"gallota",d:"tigrero",km:9,min:15,usd:1.8},
+{o:"tigrero",d:"chorro_gde",km:19,min:40,usd:3.8},{o:"chorro_gde",d:"harino",km:15,min:30,usd:3},
+{o:"naranjos",d:"pn_torrijos",km:9,min:35,usd:1.8},{o:"yayas",d:"pn_torrijos",km:7,min:32,usd:1.4},
+{o:"merca_pin",d:"naranjos",km:34,min:52,usd:6.8},{o:"naranjos",d:"merca_pin",km:34,min:52,usd:6.8},
+{o:"naranjos",d:"gallota",km:4,min:10,usd:.8},{o:"gallota",d:"naranjos",km:4,min:10,usd:.8},
+{o:"merca_pin",d:"yayas",km:35,min:52,usd:7},{o:"yayas",d:"merca_pin",km:35,min:52,usd:7},
+{o:"harino",d:"merca_pin",km:27,min:38,usd:5.4},
+],
+pos:{la_pintada:[180,200],parroquia:[270,135],merca_pin:[310,215],algarrobos:[275,285],naranjos:[460,125],pn_torrijos:[565,75],yayas:[515,185],gallota:[550,275],tigrero:[620,195],chorro_gde:[685,305],harino:[700,145]}
+},
+nata:{nombre:"Natá",emoji:"🕍",color:"#B85C38",info:{lugares:5,conexiones:20,desc:"Ciudad más antigua"},
+lugares:[
+{id:"nata",n:"Natá",e:"🏛️",t:"Centro histórico",d:"Una de las ciudades más antiguas del continente americano, fundada en 1522.",tags:["Historia","Fundación","Colonial"]},
+{id:"iglesia_nata",n:"Iglesia Santiago Apóstol",e:"⛪",t:"Patrimonio",d:"Iglesia más antigua de América en uso continuo. Patrimonio histórico de valor incalculable.",tags:["Colonial","Patrimonio","Fe"]},
+{id:"ecoparque",n:"Ecoparque Don Arcelio",e:"🌿",t:"Ecoturismo",d:"Parque ecológico con senderos, fauna nativa y actividades de agroturismo.",tags:["Ecoturismo","Fauna","Educación"]},
+{id:"el_cano",n:"Parque Arqueológico El Caño",e:"🗿",t:"Arqueología",d:"Sitio arqueológico con esculturas precolombinas únicas en América Central.",tags:["Arqueología","Precolombino","Cultura"]},
+{id:"simply",n:"Simply Natural Farms",e:"🌾",t:"Agroturismo",d:"Granja orgánica con tour de agricultura sostenible y producción natural.",tags:["Orgánico","Granja","Sostenible"]},
+],
+conexiones:[
+{o:"nata",d:"iglesia_nata",km:16,min:27,usd:3.2},{o:"nata",d:"ecoparque",km:21,min:30,usd:4.2},
+{o:"nata",d:"el_cano",km:29,min:38,usd:5.8},{o:"nata",d:"simply",km:38,min:48,usd:7.6},
+{o:"iglesia_nata",d:"el_cano",km:14,min:14,usd:2.8},{o:"el_cano",d:"iglesia_nata",km:14,min:14,usd:2.8},
+{o:"iglesia_nata",d:"ecoparque",km:6,min:6,usd:1.2},{o:"ecoparque",d:"iglesia_nata",km:6,min:6,usd:1.2},
+{o:"iglesia_nata",d:"simply",km:23,min:24,usd:4.6},{o:"simply",d:"iglesia_nata",km:23,min:24,usd:4.6},
+{o:"ecoparque",d:"el_cano",km:8,min:8,usd:1.6},{o:"el_cano",d:"ecoparque",km:8,min:8,usd:1.6},
+{o:"ecoparque",d:"simply",km:16,min:18,usd:3.2},{o:"simply",d:"ecoparque",km:16,min:18,usd:3.2},
+{o:"el_cano",d:"simply",km:16,min:20,usd:3.2},{o:"simply",d:"el_cano",km:16,min:20,usd:3.2},
+{o:"iglesia_nata",d:"nata",km:16,min:27,usd:3.2},{o:"ecoparque",d:"nata",km:21,min:30,usd:4.2},
+{o:"el_cano",d:"nata",km:29,min:38,usd:5.8},{o:"simply",d:"nata",km:38,min:48,usd:7.6},
+],
+pos:{nata:[140,200],iglesia_nata:[330,130],ecoparque:[420,225],el_cano:[555,125],simply:[660,250]}
+},
+ola:{nombre:"Olá",emoji:"🏔️",color:"#4A7C59",info:{lugares:5,conexiones:16,desc:"Montañas y cascadas"},
+lugares:[
+{id:"ola",n:"Olá",e:"🏘️",t:"Centro",d:"Pequeño distrito montañoso de Coclé, conocido por su naturaleza exuberante y tranquilidad.",tags:["Montaña","Tranquilidad","Naturaleza"]},
+{id:"chorros_ola",n:"Los Chorros de Olá",e:"💦",t:"Cascada",d:"Conjunto de cascadas naturales entre rocas. Zona de baño y fotografía muy visitada.",tags:["Cascada","Baño","Fotografía"]},
+{id:"mesitas_ola",n:"Cascadas Las Mesitas",e:"🌊",t:"Cascada",d:"Cascadas escalonadas en entorno montañoso, rodeadas de selva tropical húmeda.",tags:["Cascada","Selva","Trekking"]},
+{id:"picacho",n:"Cerro El Picacho de Olá",e:"⛰️",t:"Senderismo",d:"El punto más alto del distrito, con senderos desafiantes y vistas panorámicas espectaculares.",tags:["Cima","Senderismo","Panorámica"]},
+{id:"chorro_alto",n:"Cascada Chorro Alto",e:"🏔️",t:"Cascada",d:"Cascada de gran altura en zona remota, aventura para senderistas experimentados.",tags:["Alta","Aventura","Remota"]},
+],
+conexiones:[
+{o:"ola",d:"chorros_ola",km:13,min:18,usd:2.6},{o:"ola",d:"mesitas_ola",km:14,min:21,usd:2.8},
+{o:"ola",d:"picacho",km:14,min:21,usd:2.8},{o:"ola",d:"chorro_alto",km:23,min:52,usd:4.6},
+{o:"chorros_ola",d:"mesitas_ola",km:28,min:39,usd:5.6},{o:"mesitas_ola",d:"chorros_ola",km:28,min:39,usd:5.6},
+{o:"chorros_ola",d:"picacho",km:28,min:39,usd:5.6},{o:"picacho",d:"chorros_ola",km:28,min:39,usd:5.6},
+{o:"chorros_ola",d:"chorro_alto",km:23,min:48,usd:4.6},{o:"chorro_alto",d:"chorros_ola",km:23,min:48,usd:4.6},
+{o:"mesitas_ola",d:"picacho",km:20,min:30,usd:4},{o:"picacho",d:"mesitas_ola",km:20,min:30,usd:4},
+{o:"mesitas_ola",d:"chorro_alto",km:37,min:79,usd:7.4},{o:"chorro_alto",d:"mesitas_ola",km:37,min:79,usd:7.4},
+{o:"picacho",d:"chorro_alto",km:37,min:79,usd:7.4},{o:"chorro_alto",d:"picacho",km:37,min:79,usd:7.4},
+],
+pos:{ola:[140,200],chorros_ola:[330,125],mesitas_ola:[510,200],picacho:[390,300],chorro_alto:[660,200]}
+}
+};
+
+let distActual="penonome",critActual="km",rutaActual=null;
+
+function dijkstra(did,orig,dest,peso){
+  const D=DISTRITOS[did],conex=D.conexiones;
+  const nodos=new Set(D.lugares.map(l=>l.id));
+  const dist={},prev={},visited=new Set();
+  nodos.forEach(n=>{dist[n]=Infinity;prev[n]=null;});
+  dist[orig]=0;
+  while(true){
+    let u=null;
+    nodos.forEach(n=>{if(!visited.has(n)&&(u===null||dist[n]<dist[u]))u=n;});
+    if(u===null||dist[u]===Infinity||u===dest)break;
+    visited.add(u);
+    conex.forEach(c=>{
+      let v=null,w=0;
+      if(c.o===u){v=c.d;w=c[peso];}else if(c.d===u){v=c.o;w=c[peso];}
+      if(v&&!visited.has(v)){const nd=dist[u]+w;if(nd<dist[v]){dist[v]=nd;prev[v]=u;}}
+    });
+  }
+  if(dist[dest]===Infinity)return null;
+  const path=[];let cur=dest;while(cur){path.unshift(cur);cur=prev[cur];}
+  let tKm=0,tMin=0,tUsd=0;
+  for(let i=0;i<path.length-1;i++){
+    const c=conex.find(x=>(x.o===path[i]&&x.d===path[i+1])||(x.d===path[i]&&x.o===path[i+1]));
+    if(c){tKm+=c.km;tMin+=c.min;tUsd+=c.usd;}
+  }
+  return{path,tKm,tMin,tUsd};
+}
+
+function cargarDistrito(id){
+  distActual=id;rutaActual=null;
+  document.querySelectorAll(".dist-tab").forEach(t=>t.classList.remove("active"));
+  document.getElementById("dtab-"+id).classList.add("active");
+  const D=DISTRITOS[id];
+  document.getElementById("info-strip").innerHTML=`
+    <div class="info-card"><div class="info-icon">${D.emoji}</div><div><div class="info-val">${D.nombre}</div><div class="info-lbl">${D.info.desc}</div></div></div>
+    <div class="info-card"><div class="info-icon">📍</div><div><div class="info-val">${D.info.lugares}</div><div class="info-lbl">Lugares turísticos</div></div></div>
+    <div class="info-card"><div class="info-icon">🔗</div><div><div class="info-val">${D.info.conexiones}</div><div class="info-lbl">Conexiones CSV</div></div></div>`;
+  const grid=document.getElementById("places-grid");
+  grid.innerHTML="";
+  D.lugares.forEach(l=>{
+    const card=document.createElement("div");
+    card.className="place-card";card.id="card-"+l.id;card.onclick=()=>mostrarDetalle(l.id);
+    card.innerHTML=`<div class="place-thumb">${l.e}</div><div class="place-body"><div class="place-name">${l.n}</div><div class="place-type">${l.t}</div></div>`;
+    grid.appendChild(card);
+  });
+  const so=document.getElementById("sel-o"),sd=document.getElementById("sel-d");
+  so.innerHTML='<option value="">— Seleccionar —</option>';
+  sd.innerHTML='<option value="">— Seleccionar —</option>';
+  D.lugares.forEach(l=>{
+    so.innerHTML+=`<option value="${l.id}">${l.e} ${l.n}</option>`;
+    sd.innerHTML+=`<option value="${l.id}">${l.e} ${l.n}</option>`;
+  });
+  if(D.lugares.length>1){so.value=D.lugares[0].id;sd.value=D.lugares[D.lugares.length-1].id;}
+  const tbody=document.getElementById("tbl-body");
+  tbody.innerHTML="";
+  D.conexiones.forEach(c=>{
+    const lo=D.lugares.find(l=>l.id===c.o),ld=D.lugares.find(l=>l.id===c.d);
+    const tr=document.createElement("tr");
+    tr.id=`fila-${c.o}-${c.d}`;
+    tr.innerHTML=`<td>${lo?lo.e:''} ${lo?lo.n:c.o}</td><td>${ld?ld.e:''} ${ld?ld.n:c.d}</td><td class="td-km">${c.km} km</td><td class="td-min">${c.min} min</td><td class="td-usd">$${c.usd.toFixed(2)}</td>`;
+    tbody.appendChild(tr);
+  });
+  document.getElementById("result-wrap").classList.remove("on");
+  document.getElementById("det-wrap").classList.remove("on");
+  dibujarGrafo();
+}
+
+function mostrarDetalle(id){
+  const D=DISTRITOS[distActual];
+  const l=D.lugares.find(x=>x.id===id);if(!l)return;
+  document.getElementById("det-thumb").textContent=l.e;
+  document.getElementById("det-name").textContent=l.n;
+  document.getElementById("det-desc").textContent=l.d;
+  document.getElementById("det-tags").innerHTML=l.tags.map(t=>`<span class="tag">${t}</span>`).join("");
+  document.getElementById("det-wrap").classList.add("on");
+  document.getElementById("det-wrap").scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+
+function setCrit(c,el){
+  critActual=c;
+  document.querySelectorAll(".crit-tab").forEach(t=>t.classList.remove("active"));
+  el.classList.add("active");
+  if(rutaActual)dibujarGrafo(rutaActual.path);
+}
+
+function calcular(){
+  const o=document.getElementById("sel-o").value,d=document.getElementById("sel-d").value;
+  if(!o||!d){notif("⚠️ Selecciona origen y destino");return;}
+  if(o===d){notif("⚠️ Origen y destino deben ser diferentes");return;}
+  const res=dijkstra(distActual,o,d,critActual);
+  if(!res){notif("❌ No existe ruta entre esos puntos");return;}
+  rutaActual=res;
+  const D=DISTRITOS[distActual],critLabel={km:"distancia",min:"tiempo",usd:"costo"}[critActual];
+  document.querySelectorAll(".place-pill").forEach(p=>p.remove());
+  res.path.forEach((id,i)=>{
+    const card=document.getElementById("card-"+id);if(!card)return;
+    const pill=document.createElement("div");
+    if(i===0){pill.className="place-pill pill-orig";pill.textContent="Origen";}
+    else if(i===res.path.length-1){pill.className="place-pill pill-dest";pill.textContent="Destino";}
+    else{pill.className="place-pill pill-paso";pill.textContent="Paso "+i;}
+    card.appendChild(pill);
+  });
+  document.getElementById("ruta-steps").innerHTML=res.path.map((id,i)=>{
+    const l=D.lugares.find(x=>x.id===id);
+    const n=l?`${l.e} ${l.n}`:id;
+    const cls=i===0?"ruta-node node-orig":i===res.path.length-1?"ruta-node node-dest":"ruta-node node-mid";
+    const arr=i<res.path.length-1?'<span class="ruta-arrow">→</span>':'';
+    return`<span class="${cls}">${n}</span>${arr}`;
+  }).join("");
+  document.getElementById("stats").innerHTML=`
+    <div class="stat ${critActual==='km'?'hl':''}"><div class="stat-val">${res.tKm.toFixed(1)}</div><div class="stat-lbl">Kilómetros</div></div>
+    <div class="stat ${critActual==='min'?'hl':''}"><div class="stat-val">${res.tMin.toFixed(0)}</div><div class="stat-lbl">Minutos</div></div>
+    <div class="stat ${critActual==='usd'?'hl':''}"><div class="stat-val">$${res.tUsd.toFixed(2)}</div><div class="stat-lbl">Costo USD</div></div>`;
+  const oN=D.lugares.find(l=>l.id===o)?.n||o,dN=D.lugares.find(l=>l.id===d)?.n||d;
+  document.getElementById("res-title").textContent=`${oN} → ${dN}`;
+  document.getElementById("res-sub").textContent=`Ruta óptima por ${critLabel} · ${res.path.length} paradas`;
+  document.getElementById("result-wrap").classList.add("on");
+  document.getElementById("result-wrap").scrollIntoView({behavior:"smooth",block:"nearest"});
+  document.querySelectorAll("tr.tbl-hl").forEach(t=>t.classList.remove("tbl-hl"));
+  for(let i=0;i<res.path.length-1;i++){
+    const a=res.path[i],b=res.path[i+1];
+    const fila=document.getElementById(`fila-${a}-${b}`)||document.getElementById(`fila-${b}-${a}`);
+    if(fila)fila.classList.add("tbl-hl");
+  }
+  dibujarGrafo(res.path);
+  notif(`✅ Ruta: ${res.path.length} paradas · ${res.tKm.toFixed(1)} km`);
+}
+
+function dibujarGrafo(rutaPath=[]){
+  const D=DISTRITOS[distActual];
+  const svg=document.getElementById("gsvg");svg.innerHTML="";
+  const ruE=new Set();
+  for(let i=0;i<rutaPath.length-1;i++){ruE.add(`${rutaPath[i]}-${rutaPath[i+1]}`);ruE.add(`${rutaPath[i+1]}-${rutaPath[i]}`);}
+  D.conexiones.forEach(c=>{
+    const p1=D.pos[c.o],p2=D.pos[c.d];if(!p1||!p2)return;
+    const enR=ruE.has(`${c.o}-${c.d}`);
+    const line=document.createElementNS("http://www.w3.org/2000/svg","line");
+    line.setAttribute("x1",p1[0]);line.setAttribute("y1",p1[1]);line.setAttribute("x2",p2[0]);line.setAttribute("y2",p2[1]);
+    line.setAttribute("stroke",enR?"#D64045":"#A8C5B5");line.setAttribute("stroke-width",enR?"3":"1.5");
+    line.setAttribute("stroke-dasharray",enR?"":"4 3");line.setAttribute("opacity",enR?"1":"0.55");
+    svg.appendChild(line);
+    const mx=(p1[0]+p2[0])/2,my=(p1[1]+p2[1])/2;
+    const lbl=document.createElementNS("http://www.w3.org/2000/svg","text");
+    lbl.setAttribute("x",mx);lbl.setAttribute("y",my-5);lbl.setAttribute("text-anchor","middle");lbl.setAttribute("font-size","9");
+    lbl.setAttribute("fill",enR?"#D64045":"#888");lbl.setAttribute("font-family","DM Sans,sans-serif");
+    lbl.textContent=critActual==="km"?`${c.km}km`:critActual==="min"?`${c.min}m`:`$${c.usd}`;
+    svg.appendChild(lbl);
+  });
+  D.lugares.forEach(l=>{
+    const pos=D.pos[l.id];if(!pos)return;
+    const[cx,cy]=pos;
+    const enR=rutaPath.includes(l.id),esO=rutaPath[0]===l.id,esD=rutaPath[rutaPath.length-1]===l.id;
+    const g=document.createElementNS("http://www.w3.org/2000/svg","g");
+    g.style.cursor="pointer";g.onclick=()=>mostrarDetalle(l.id);
+    const circ=document.createElementNS("http://www.w3.org/2000/svg","circle");
+    circ.setAttribute("cx",cx);circ.setAttribute("cy",cy);circ.setAttribute("r","20");
+    circ.setAttribute("fill",esO?"#C9A84C":esD?"#D64045":enR?"#40916C":D.color);
+    circ.setAttribute("stroke","#fff");circ.setAttribute("stroke-width","2");
+    g.appendChild(circ);
+    const em=document.createElementNS("http://www.w3.org/2000/svg","text");
+    em.setAttribute("x",cx);em.setAttribute("y",cy+5);em.setAttribute("text-anchor","middle");em.setAttribute("font-size","13");
+    em.textContent=l.e;g.appendChild(em);
+    const lb=document.createElementNS("http://www.w3.org/2000/svg","text");
+    lb.setAttribute("x",cx);lb.setAttribute("y",cy+33);lb.setAttribute("text-anchor","middle");lb.setAttribute("font-size","9.5");
+    lb.setAttribute("font-family","DM Sans,sans-serif");lb.setAttribute("font-weight","500");lb.setAttribute("fill","#1A1A1A");
+    lb.textContent=l.n.length>13?l.n.substring(0,12)+"…":l.n;g.appendChild(lb);
+    svg.appendChild(g);
+  });
+}
+
+function notif(msg){const n=document.getElementById("notif");n.textContent=msg;n.classList.add("on");setTimeout(()=>n.classList.remove("on"),2800);}
+
+function init(){
+  const nav=document.getElementById("dist-nav");
+  Object.entries(DISTRITOS).forEach(([id,D])=>{
+    const tab=document.createElement("div");
+    tab.className="dist-tab";tab.id="dtab-"+id;tab.onclick=()=>cargarDistrito(id);
+    tab.innerHTML=`<span class="dist-dot"></span>${D.emoji} ${D.nombre}`;
+    nav.appendChild(tab);
+  });
+  cargarDistrito("penonome");
+}
+init();
+</script>
+</body>
+</html>
