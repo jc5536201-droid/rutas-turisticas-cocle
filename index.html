@@ -31,11 +31,16 @@ body{font-family:'DM Sans',sans-serif;background:var(--crema);color:var(--texto)
 .place-card:hover{transform:translateY(-3px);box-shadow:var(--sombra);}
 .place-card.sel-orig{border-color:var(--dorado);}
 .place-card.sel-dest{border-color:var(--rojo);}
-.place-thumb{height:100px;display:flex;align-items:center;justify-content:center;font-size:38px;background:linear-gradient(135deg,var(--verde),var(--verde3));}
+
+/* Thumb: imagen real o fallback emoji */
+.place-thumb{height:110px;display:flex;align-items:center;justify-content:center;font-size:38px;background:linear-gradient(135deg,var(--verde),var(--verde3));overflow:hidden;position:relative;}
+.place-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+.place-thumb .emoji-fb{font-size:38px;position:absolute;}
+
 .place-body{padding:10px 12px;}
 .place-name{font-weight:500;font-size:12px;color:var(--texto);line-height:1.3;margin-bottom:2px;}
 .place-type{font-size:11px;color:var(--gris);}
-.place-pill{position:absolute;top:7px;left:7px;font-size:10px;font-weight:500;padding:2px 8px;border-radius:10px;color:#fff;}
+.place-pill{position:absolute;top:7px;left:7px;font-size:10px;font-weight:500;padding:2px 8px;border-radius:10px;color:#fff;z-index:2;}
 .pill-orig{background:var(--dorado);}
 .pill-dest{background:var(--rojo);}
 .pill-paso{background:var(--verde2);}
@@ -74,7 +79,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--crema);color:var(--texto)
 .det-wrap.on{display:block;}
 .det-inner{display:grid;grid-template-columns:160px 1fr;gap:20px;align-items:start;}
 @media(max-width:560px){.det-inner{grid-template-columns:1fr;}}
-.det-thumb{width:160px;height:130px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:54px;background:linear-gradient(135deg,var(--verde),var(--verde3));flex-shrink:0;}
+.det-thumb{width:160px;height:130px;border-radius:12px;overflow:hidden;background:linear-gradient(135deg,var(--verde),var(--verde3));flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:54px;}
+.det-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
 .det-name{font-family:'Playfair Display',serif;font-size:1.25rem;color:var(--verde);margin-bottom:6px;}
 .det-desc{font-size:13px;color:var(--gris);line-height:1.7;margin-bottom:10px;}
 .tags{display:flex;gap:7px;flex-wrap:wrap;}
@@ -156,6 +162,95 @@ footer strong{color:var(--lima);}
 <footer><strong>Rutas Turísticas — Provincia de Coclé</strong><br>Algoritmo de Dijkstra · Grafo Ponderado · Proyecto de Tesis<br>Aguadulce · Antón · La Pintada · Natá · Olá · Penonomé</footer>
 <div class="notif" id="notif"></div>
 <script>
+
+/* ─────────────────────────────────────────────────────────
+   MAPA DE IMÁGENES: id_lugar → ruta del archivo
+   Ajusta la carpeta "images/" si la tuya tiene otro nombre.
+   ───────────────────────────────────────────────────────── */
+const IMG = {
+  // ── Penonomé ──
+  penonome:    "images/Catedral Penonomé.jfif",       // ciudad capital → catedral icónica
+  mercado:     "images/Mercado de Penonomé.jfif",
+  carpios:     "images/Carpios Land Parque Acuático Familiar.jpg",
+  catedral:    "images/Catedral Penonomé.jfif",
+  museo:       "images/Museo de Penonomé.jfif",
+  arias:       "images/Museo Hermanos Arias Madrid.jpg",
+  pelota:      "images/La Pelota Feliz mini golf.jpg",
+  icacos:      "images/ICACOS Adventure.jpg",
+  tavida:      "images/CASCADA TAVIDA.jpg",
+  pailas:      "images/Cascada Las Pailas .jpg",
+
+  // ── Aguadulce ──
+  aguadulce:   "images/Aguadulce.jfif",
+  museo_stella:"images/Museo Regional Stella Sierra.jfif",
+  mesitas:     "images/Cascadas Las Mesitas.jfif",
+  salado:      "images/Playa El Salado.jfif",
+  salinas:     "images/Salinas de Aguadulce.jfif",
+
+  // ── Antón ──
+  anton:       "images/Antón.jpg",
+  india:       "images/india dormida.jfif",
+  gaital:      "images/cerro gaital.jfif",
+  chorro_macho:"images/chorro el macho.jfif",
+  mozas:       "images/chorro el macho.jfif",          // sin imagen propia → usar más cercana
+  termales:    "images/Pozos termales.jfif",
+  arboles:     "images/Sendero Arbol cuadrado.jfif",
+  nispero:     "images/Zoológico El Nispero.jfif",
+  serpentario: "images/Serpentario.jpg",
+  mariposario: "images/Mariposario.jfif",
+  aprovaca:    "images/Aprovaca.jpg",
+  evacc:       "images/EVACC.jfif",
+  mercado_ev:  "images/Mercado del valle.jfif",
+  pintada_roca:"images/Piedra Pintada.jfif",
+  museo_valle: "images/Museo del valle de anton.jfif",
+  canopy:      "images/Canopy.jpg",
+  retiro:      "images/Chorro el retiro.jpg",
+  sta_clara:   "images/Playa Santa Clara.jfif",
+  farallon:    "images/Playa Farallon.jfif",
+  blanca:      "images/Playa Blanca.jfif",
+
+  // ── La Pintada ──
+  la_pintada:  "images/La Pintada.jfif",
+  parroquia:   "images/Parroquia Nuestra Señora de la Candelaria.jpg",
+  merca_pin:   "images/Mercado de Artesanías de La Pintada.jfif",
+  algarrobos:  "images/Balneario Los Algarrobos.jpg",
+  naranjos:    "images/Balneario Los Naranjos.jpg",
+  pn_torrijos: "images/Parque Nacional General de División Omar Torrijos.jpg",
+  yayas:       "images/El Chorro Las Yayas.jfif",
+  gallota:     "images/Piedra La Gallota .jpg",
+  tigrero:     "images/Chorro el Tigrero.jfif",
+  chorro_gde:  "images/Chorro Grande.jpg",
+  harino:      "images/Río El Harino.jpg",
+
+  // ── Natá ──
+  nata:        "images/Natá.jfif",
+  iglesia_nata:"images/Iglesia Santiago Apóstol de Natá.jpg",
+  ecoparque:   "images/Ecoparque Don Arcelio.jfif",
+  el_cano:     "images/Parque Arqueológico El Caño.jfif",
+  simply:      "images/Simply Natural Farms.jfif",
+
+  // ── Olá ──
+  ola:         "images/Olá.jfif",
+  chorros_ola: "images/Los Chorros de Olá.jpg",
+  mesitas_ola: "images/Cascadas Las Mesitas.jfif",
+  picacho:     "images/Cerro El Picacho de Olá.jfif",
+  chorro_alto: "images/Cascada Chorro Alto.jfif",
+};
+
+/* Devuelve HTML de thumbnail: imagen real con fallback a emoji */
+function thumbHTML(id, emoji, height="110px") {
+  const src = IMG[id];
+  if (src) {
+    return `<img src="${src}" alt="" loading="lazy"
+      onerror="this.parentNode.innerHTML='<span class=\\'emoji-fb\\'>${emoji}</span>'"
+      style="width:100%;height:${height};object-fit:cover;display:block;">`;
+  }
+  return `<span class="emoji-fb">${emoji}</span>`;
+}
+
+/* ─────────────────────────────────────────────────────────
+   DATOS DE DISTRITOS (sin cambios en la lógica)
+   ───────────────────────────────────────────────────────── */
 const DISTRITOS={
 penonome:{nombre:"Penonomé",emoji:"🏛️",color:"#2D6A4F",info:{lugares:10,conexiones:27,desc:"Capital de Coclé"},
 lugares:[
@@ -371,7 +466,15 @@ function cargarDistrito(id){
   D.lugares.forEach(l=>{
     const card=document.createElement("div");
     card.className="place-card";card.id="card-"+l.id;card.onclick=()=>mostrarDetalle(l.id);
-    card.innerHTML=`<div class="place-thumb">${l.e}</div><div class="place-body"><div class="place-name">${l.n}</div><div class="place-type">${l.t}</div></div>`;
+    const imgSrc=IMG[l.id];
+    const thumbContent=imgSrc
+      ?`<img src="${imgSrc}" alt="${l.n}" loading="lazy"
+          onerror="this.style.display='none';this.nextSibling.style.display='flex';"
+          style="width:100%;height:110px;object-fit:cover;display:block;">
+         <div style="display:none;width:100%;height:110px;align-items:center;justify-content:center;font-size:38px;background:linear-gradient(135deg,var(--verde),var(--verde3))">${l.e}</div>`
+      :`<span style="font-size:38px">${l.e}</span>`;
+    card.innerHTML=`<div class="place-thumb" style="padding:0">${thumbContent}</div>
+      <div class="place-body"><div class="place-name">${l.n}</div><div class="place-type">${l.t}</div></div>`;
     grid.appendChild(card);
   });
   const so=document.getElementById("sel-o"),sd=document.getElementById("sel-d");
@@ -399,7 +502,15 @@ function cargarDistrito(id){
 function mostrarDetalle(id){
   const D=DISTRITOS[distActual];
   const l=D.lugares.find(x=>x.id===id);if(!l)return;
-  document.getElementById("det-thumb").textContent=l.e;
+  const thumb=document.getElementById("det-thumb");
+  const imgSrc=IMG[id];
+  if(imgSrc){
+    thumb.innerHTML=`<img src="${imgSrc}" alt="${l.n}"
+      onerror="this.parentNode.innerHTML='${l.e}'"
+      style="width:100%;height:100%;object-fit:cover;border-radius:12px;display:block;">`;
+  } else {
+    thumb.textContent=l.e;
+  }
   document.getElementById("det-name").textContent=l.n;
   document.getElementById("det-desc").textContent=l.d;
   document.getElementById("det-tags").innerHTML=l.tags.map(t=>`<span class="tag">${t}</span>`).join("");
