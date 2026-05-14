@@ -167,74 +167,76 @@ footer strong{color:var(--lima);}
    MAPA DE IMÁGENES: id_lugar → ruta del archivo
    Ajusta la carpeta "images/" si la tuya tiene otro nombre.
    ───────────────────────────────────────────────────────── */
+// Rutas limpias: sin espacios, sin tildes, sin .jfif
+// Renombra tus archivos según la tabla del README antes de subir a GitHub
 const IMG = {
   // ── Penonomé ──
-  penonome:    "images/Catedral Penonomé.jfif",       // ciudad capital → catedral icónica
-  mercado:     "images/Mercado de Penonomé.jfif",
-  carpios:     "images/Carpios Land Parque Acuático Familiar.jpg",
-  catedral:    "images/Catedral Penonomé.jfif",
-  museo:       "images/Museo de Penonomé.jfif",
-  arias:       "images/Museo Hermanos Arias Madrid.jpg",
-  pelota:      "images/La Pelota Feliz mini golf.jpg",
-  icacos:      "images/ICACOS Adventure.jpg",
-  tavida:      "images/CASCADA TAVIDA.jpg",
-  pailas:      "images/Cascada Las Pailas .jpg",
+  penonome:    "images/catedral.jpg",   // usa catedral como imagen de la ciudad
+  mercado:     "images/mercado.jpg",
+  carpios:     "images/carpios.jpg",
+  catedral:    "images/catedral.jpg",
+  museo:       "images/museo.jpg",
+  arias:       "images/arias.jpg",
+  pelota:      "images/pelota.jpg",
+  icacos:      "images/icacos.jpg",
+  tavida:      "images/tavida.jpg",
+  pailas:      "images/pailas.jpg",
 
   // ── Aguadulce ──
-  aguadulce:   "images/Aguadulce.jfif",
-  museo_stella:"images/Museo Regional Stella Sierra.jfif",
-  mesitas:     "images/Cascadas Las Mesitas.jfif",
-  salado:      "images/Playa El Salado.jfif",
-  salinas:     "images/Salinas de Aguadulce.jfif",
+  aguadulce:   "images/aguadulce.jpg",
+  museo_stella:"images/museo_stella.jpg",
+  mesitas:     "images/mesitas.jpg",
+  salado:      "images/salado.jpg",
+  salinas:     "images/salinas.jpg",
 
   // ── Antón ──
-  anton:       "images/Antón.jpg",
-  india:       "images/india dormida.jfif",
-  gaital:      "images/cerro gaital.jfif",
-  chorro_macho:"images/chorro el macho.jfif",
-  mozas:       "images/chorro el macho.jfif",          // sin imagen propia → usar más cercana
-  termales:    "images/Pozos termales.jfif",
-  arboles:     "images/Sendero Arbol cuadrado.jfif",
-  nispero:     "images/Zoológico El Nispero.jfif",
-  serpentario: "images/Serpentario.jpg",
-  mariposario: "images/Mariposario.jfif",
-  aprovaca:    "images/Aprovaca.jpg",
-  evacc:       "images/EVACC.jfif",
-  mercado_ev:  "images/Mercado del valle.jfif",
-  pintada_roca:"images/Piedra Pintada.jfif",
-  museo_valle: "images/Museo del valle de anton.jfif",
-  canopy:      "images/Canopy.jpg",
-  retiro:      "images/Chorro el retiro.jpg",
-  sta_clara:   "images/Playa Santa Clara.jfif",
-  farallon:    "images/Playa Farallon.jfif",
-  blanca:      "images/Playa Blanca.jfif",
+  anton:       "images/anton.jpg",
+  india:       "images/india.jpg",
+  gaital:      "images/gaital.jpg",
+  chorro_macho:"images/chorro_macho.jpg",
+  mozas:       "images/chorro_macho.jpg",  // sin imagen propia → fallback
+  termales:    "images/termales.jpg",
+  arboles:     "images/arboles.jpg",
+  nispero:     "images/nispero.jpg",
+  serpentario: "images/serpentario.jpg",
+  mariposario: "images/mariposario.jpg",
+  aprovaca:    "images/aprovaca.jpg",
+  evacc:       "images/evacc.jpg",
+  mercado_ev:  "images/mercado_ev.jpg",
+  pintada_roca:"images/pintada_roca.jpg",
+  museo_valle: "images/museo_valle.jpg",
+  canopy:      "images/canopy.jpg",
+  retiro:      "images/retiro.jpg",
+  sta_clara:   "images/sta_clara.jpg",
+  farallon:    "images/farallon.jpg",
+  blanca:      "images/blanca.jpg",
 
   // ── La Pintada ──
-  la_pintada:  "images/La Pintada.jfif",
-  parroquia:   "images/Parroquia Nuestra Señora de la Candelaria.jpg",
-  merca_pin:   "images/Mercado de Artesanías de La Pintada.jfif",
-  algarrobos:  "images/Balneario Los Algarrobos.jpg",
-  naranjos:    "images/Balneario Los Naranjos.jpg",
-  pn_torrijos: "images/Parque Nacional General de División Omar Torrijos.jpg",
-  yayas:       "images/El Chorro Las Yayas.jfif",
-  gallota:     "images/Piedra La Gallota .jpg",
-  tigrero:     "images/Chorro el Tigrero.jfif",
-  chorro_gde:  "images/Chorro Grande.jpg",
-  harino:      "images/Río El Harino.jpg",
+  la_pintada:  "images/la_pintada.jpg",
+  parroquia:   "images/parroquia.jpg",
+  merca_pin:   "images/merca_pin.jpg",
+  algarrobos:  "images/algarrobos.jpg",
+  naranjos:    "images/naranjos.jpg",
+  pn_torrijos: "images/pn_torrijos.jpg",
+  yayas:       "images/yayas.jpg",
+  gallota:     "images/gallota.jpg",
+  tigrero:     "images/tigrero.jpg",
+  chorro_gde:  "images/chorro_gde.jpg",
+  harino:      "images/harino.jpg",
 
   // ── Natá ──
-  nata:        "images/Natá.jfif",
-  iglesia_nata:"images/Iglesia Santiago Apóstol de Natá.jpg",
-  ecoparque:   "images/Ecoparque Don Arcelio.jfif",
-  el_cano:     "images/Parque Arqueológico El Caño.jfif",
-  simply:      "images/Simply Natural Farms.jfif",
+  nata:        "images/nata.jpg",
+  iglesia_nata:"images/iglesia_nata.jpg",
+  ecoparque:   "images/ecoparque.jpg",
+  el_cano:     "images/el_cano.jpg",
+  simply:      "images/simply.jpg",
 
   // ── Olá ──
-  ola:         "images/Olá.jfif",
-  chorros_ola: "images/Los Chorros de Olá.jpg",
-  mesitas_ola: "images/Cascadas Las Mesitas.jfif",
-  picacho:     "images/Cerro El Picacho de Olá.jfif",
-  chorro_alto: "images/Cascada Chorro Alto.jfif",
+  ola:         "images/ola.jpg",
+  chorros_ola: "images/chorros_ola.jpg",
+  mesitas_ola: "images/mesitas.jpg",    // reutiliza mesitas
+  picacho:     "images/picacho.jpg",
+  chorro_alto: "images/chorro_alto.jpg",
 };
 
 /* Devuelve HTML de thumbnail: imagen real con fallback a emoji */
