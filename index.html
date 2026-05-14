@@ -31,12 +31,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--crema);color:var(--texto)
 .place-card:hover{transform:translateY(-3px);box-shadow:var(--sombra);}
 .place-card.sel-orig{border-color:var(--dorado);}
 .place-card.sel-dest{border-color:var(--rojo);}
-
-/* Thumb: imagen real o fallback emoji */
 .place-thumb{height:110px;display:flex;align-items:center;justify-content:center;font-size:38px;background:linear-gradient(135deg,var(--verde),var(--verde3));overflow:hidden;position:relative;}
 .place-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
 .place-thumb .emoji-fb{font-size:38px;position:absolute;}
-
 .place-body{padding:10px 12px;}
 .place-name{font-weight:500;font-size:12px;color:var(--texto);line-height:1.3;margin-bottom:2px;}
 .place-type{font-size:11px;color:var(--gris);}
@@ -163,11 +160,6 @@ footer strong{color:var(--lima);}
 <div class="notif" id="notif"></div>
 <script>
 
-/* ─────────────────────────────────────────────────────────
-   MAPA DE IMÁGENES: id_lugar → ruta del archivo
-   Ajusta la carpeta "images/" si la tuya tiene otro nombre.
-   ───────────────────────────────────────────────────────── */
-// IMPORTANTE: la carpeta en el repo se llama "imagenes" (con nombres originales)
 const IMG = {
   // ── Penonomé ──
   penonome:    "imagenes/Catedral%20Penonom%C3%A9.jfif",
@@ -184,7 +176,6 @@ const IMG = {
   // ── Aguadulce ──
   aguadulce:   "imagenes/aguadulce.jpg",
   museo_stella:"imagenes/Museo%20Regional%20Stella%20Sierra.jfif",
-  mesitas:     "imagenes/Cascadas%20Las%20Mesitas.jfif",
   salado:      "imagenes/Playa%20El%20Salado.jfif",
   salinas:     "imagenes/Salinas%20de%20Aguadulce.jfif",
 
@@ -238,7 +229,6 @@ const IMG = {
   chorro_alto: "imagenes/Cascada%20Chorro%20Alto.jfif",
 };
 
-/* Devuelve HTML de thumbnail: imagen real con fallback a emoji */
 function thumbHTML(id, emoji, height="110px") {
   const src = IMG[id];
   if (src) {
@@ -249,9 +239,6 @@ function thumbHTML(id, emoji, height="110px") {
   return `<span class="emoji-fb">${emoji}</span>`;
 }
 
-/* ─────────────────────────────────────────────────────────
-   DATOS DE DISTRITOS (sin cambios en la lógica)
-   ───────────────────────────────────────────────────────── */
 const DISTRITOS={
 penonome:{nombre:"Penonomé",emoji:"🏛️",color:"#2D6A4F",info:{lugares:10,conexiones:27,desc:"Capital de Coclé"},
 lugares:[
@@ -279,25 +266,22 @@ conexiones:[
 ],
 pos:{penonome:[410,200],mercado:[280,140],carpios:[200,295],catedral:[320,78],museo:[460,78],arias:[530,130],pelota:[230,215],icacos:[290,310],tavida:[120,310],pailas:[595,310]}
 },
-aguadulce:{nombre:"Aguadulce",emoji:"🌊",color:"#2A6496",info:{lugares:5,conexiones:16,desc:"Costa y salinas"},
+aguadulce:{nombre:"Aguadulce",emoji:"🌊",color:"#2A6496",info:{lugares:4,conexiones:10,desc:"Costa y salinas"},
 lugares:[
 {id:"aguadulce",n:"Aguadulce",e:"🏙️",t:"Centro urbano",d:"Ciudad costera conocida por sus salinas y cultura azucarera. Puerta de entrada al turismo de playa.",tags:["Ciudad","Costa","Historia"]},
 {id:"museo_stella",n:"Museo Regional Stella Sierra",e:"🏺",t:"Cultura",d:"Museo regional con colecciones históricas y arqueológicas de la identidad cultural de Aguadulce.",tags:["Historia","Arqueología","Arte"]},
-{id:"mesitas",n:"Cascadas Las Mesitas",e:"💦",t:"Naturaleza",d:"Impresionantes cascadas en las montañas cercanas, accesibles por senderos naturales.",tags:["Cascada","Naturaleza","Senderismo"]},
 {id:"salado",n:"Playa El Salado",e:"🏖️",t:"Playa",d:"Playa popular para recreación familiar con arenas y aguas tranquilas del Pacífico.",tags:["Playa","Familia","Descanso"]},
 {id:"salinas",n:"Salinas de Aguadulce",e:"🧂",t:"Agroturismo",d:"Uno de los principales productores de sal del país. Visita única para conocer la extracción artesanal.",tags:["Sal","Agroturismo","Único"]},
 ],
 conexiones:[
-{o:"aguadulce",d:"museo_stella",km:3,min:6,usd:.6},{o:"aguadulce",d:"mesitas",km:14,min:21,usd:2.8},
+{o:"aguadulce",d:"museo_stella",km:3,min:6,usd:.6},
 {o:"aguadulce",d:"salado",km:10,min:16,usd:2},{o:"aguadulce",d:"salinas",km:9,min:14,usd:1.8},
 {o:"museo_stella",d:"salinas",km:7,min:10,usd:1.4},{o:"salinas",d:"museo_stella",km:7,min:10,usd:1.4},
 {o:"museo_stella",d:"salado",km:9,min:11,usd:1.8},{o:"salado",d:"museo_stella",km:9,min:11,usd:1.8},
 {o:"salinas",d:"salado",km:1,min:1,usd:.2},{o:"salado",d:"salinas",km:1,min:1,usd:.2},
-{o:"salado",d:"mesitas",km:56,min:66,usd:11.2},{o:"mesitas",d:"salado",km:56,min:66,usd:11.2},
-{o:"salinas",d:"mesitas",km:54,min:65,usd:10.8},{o:"mesitas",d:"salinas",km:54,min:65,usd:10.8},
-{o:"museo_stella",d:"mesitas",km:47,min:55,usd:9.4},{o:"mesitas",d:"museo_stella",km:47,min:55,usd:9.4},
+{o:"aguadulce",d:"museo_stella",km:3,min:6,usd:.6},
 ],
-pos:{aguadulce:[150,200],museo_stella:[330,120],mesitas:[660,200],salado:[460,310],salinas:[390,210]}
+pos:{aguadulce:[150,200],museo_stella:[330,120],salado:[460,310],salinas:[390,210]}
 },
 anton:{nombre:"Antón",emoji:"🌋",color:"#6B3D8C",info:{lugares:20,conexiones:56,desc:"El Valle de Antón"},
 lugares:[
